@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>YouTube Video Downloader</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Video Downloader</h1>
+        <form method="post">
+            <input
+                type="url"
+                name="url"
+                placeholder="Paste YouTube URL"
+                value="{{ url or '' }}"
+                required
+            />
+
+            {% if formats %}
+            <div class="video-info">
+                {% if thumbnail %}
+                <img src="{{ thumbnail }}" alt="Thumbnail" />
+                {% endif %}
+                {% if title %}
+                <h2>{{ title }}</h2>
+                {% endif %}
+            </div>
+
+            <label for="format-select">Select Quality:</label>
+            <select name="format" id="format-select" required>
+                {% for f in formats %}
+                <option value="{{ f['format_id'] }}">
+                    {{ f['resolution'] }} - {{ f['ext'] }} - {{ f['filesize_mb'] }} MB
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" name="action" value="download">Download</button>
+            {% else %}
+            <button type="submit" name="action" value="fetch">Get Details</button>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
